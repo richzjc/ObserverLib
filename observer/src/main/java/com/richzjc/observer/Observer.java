@@ -1,4 +1,4 @@
-package com.wallstreetcn.helper.utils.observer;
+package com.richzjc.observer;
 
 public interface Observer {
 

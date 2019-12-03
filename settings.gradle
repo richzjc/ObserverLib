@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':observer'
 rootProject.name='ObserverLib'

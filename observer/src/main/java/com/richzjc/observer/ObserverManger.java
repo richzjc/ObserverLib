@@ -1,4 +1,4 @@
-package com.wallstreetcn.helper.utils.observer;
+package com.richzjc.observer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
