@@ -5,7 +5,7 @@ publish {
     userOrg = 'richzjc'
     groupId = 'com.richzjc'
     artifactId = 'ObserverLib'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.2'
     desc = '基于观察者模式 实现类似EventBus的功能'
     website = 'https://github.com/novoda/bintray-release'
 }
