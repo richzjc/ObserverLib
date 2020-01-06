@@ -8,4 +8,6 @@ public interface ObserverChanger {
 
 	 void notifyObserver(int id, Object... args);
 
+	 void notifyObserverSticky(int id, Object ... args);
+
 }

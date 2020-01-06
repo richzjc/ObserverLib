@@ -15,6 +15,7 @@ import java.util.List;
 public class ObserverManger implements ObserverChanger {
 
     final private HashMap<Integer, ArrayList<Observer>> observers = new HashMap<>();
+    private final HashMap<Integer, Object[]> stickyEvent = new HashMap<>();
 
     private static volatile ObserverManger Instance = null;
     public static ObserverManger getInstance() {
@@ -41,6 +42,11 @@ public class ObserverManger implements ObserverChanger {
                 return;
             }
             objects.add(observer);
+
+            if(stickyEvent.containsKey(id)){
+                observer.update(id, stickyEvent.get(id));
+                stickyEvent.remove(id);
+            }
         }
     }
 
@@ -88,6 +94,25 @@ public class ObserverManger implements ObserverChanger {
     public void notifyObserver(int id, Object... args) {
         try {
             synchronized (observers) {
+                if(observers.get(id) != null) {
+                    ArrayList<Observer> objects = new ArrayList<>(observers.get(id));
+                    if (objects != null && !objects.isEmpty()) {
+                        for (Observer obj : objects) {
+                            obj.update(id, args);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void notifyObserverSticky(int id, Object... args) {
+        try {
+            synchronized (observers) {
+                stickyEvent.put(id, args);
                 if(observers.get(id) != null) {
                     ArrayList<Observer> objects = new ArrayList<>(observers.get(id));
                     if (objects != null && !objects.isEmpty()) {
