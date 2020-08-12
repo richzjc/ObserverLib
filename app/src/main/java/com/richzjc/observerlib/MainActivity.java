@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import com.richzjc.observer.Observer;
-import com.richzjc.observer.ObserverManager;
+import com.richzjc.livedata.Observer;
+import com.richzjc.livedata.ObserverManager;
 
 public class MainActivity extends AppCompatActivity implements Observer {
 

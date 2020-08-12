@@ -1,4 +1,4 @@
-package com.richzjc.observer;
+package com.richzjc.livedata;
 
 import androidx.lifecycle.LifecycleOwner;
 import java.util.HashMap;

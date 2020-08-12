@@ -1,11 +1,10 @@
-package com.richzjc.observer;
+package com.richzjc.livedata;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 class ObserverLiveData extends MutableLiveData<Object[]> {

@@ -1,15 +1,15 @@
-package com.richzjc.observer;
+package com.richzjc.livedata;
 
 import androidx.lifecycle.Observer;
 
 public class LiveDataObserver implements Observer<Object[]> {
 
-    public com.richzjc.observer.Observer observer;
+    public com.richzjc.livedata.Observer observer;
     public int id;
     public boolean isNeedSticky;
     public Object[] filterObject;
 
-    public LiveDataObserver(com.richzjc.observer.Observer observer, int id, boolean isNeedSticky){
+    public LiveDataObserver(com.richzjc.livedata.Observer observer, int id, boolean isNeedSticky){
         this.observer = observer;
         this.id = id;
         this.isNeedSticky = isNeedSticky;
