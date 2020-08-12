@@ -1,10 +1,10 @@
-package com.richzjc.livedata;
+package com.richzjc.observer;
 
 import androidx.lifecycle.LifecycleOwner;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ObserverManager {
+public class ObserverManger {
 
     final static private HashMap<Integer, ObserverLiveData> liveDatas = new HashMap<>();
 

@@ -1,4 +1,4 @@
-package com.richzjc.livedata;
+package com.richzjc.observer;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;

@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import com.richzjc.livedata.Observer;
-import com.richzjc.livedata.ObserverManager;
+import com.richzjc.observer.Observer;
+import com.richzjc.observer.ObserverManger;
 
 public class MainActivity extends AppCompatActivity implements Observer {
 
@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ObserverManager.registerObserver(this, this, 0);
+        ObserverManger.registerObserver(this, this, 0);
         initListener();
     }
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObserverManager.notifyObserver(0, "今天的天气还是不错的");
+                ObserverManger.notifyObserver(0, "今天的天气还是不错的");
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });

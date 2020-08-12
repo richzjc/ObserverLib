@@ -1,4 +1,4 @@
-package com.richzjc.livedata;
+package com.richzjc.observer;
 
 
 public interface Observer {

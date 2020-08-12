@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.richzjc.livedata.Observer;
-import com.richzjc.livedata.ObserverManager;
+import com.richzjc.observer.Observer;
+import com.richzjc.observer.ObserverManger;
 
 public class SecondActivity extends AppCompatActivity implements Observer {
 
@@ -15,7 +15,7 @@ public class SecondActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ObserverManager.registerObserver(this, null, 0);
+        ObserverManger.registerObserver(this, null, 0);
         initListener();
     }
 
@@ -23,7 +23,7 @@ public class SecondActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObserverManager.notifyObserver(0, "SecondActivity");
+                ObserverManger.notifyObserver(0, "SecondActivity");
             }
         });
     }
