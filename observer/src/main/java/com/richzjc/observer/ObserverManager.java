@@ -1,7 +1,6 @@
 package com.richzjc.observer;
 
 import androidx.lifecycle.LifecycleOwner;
-
 import java.util.HashMap;
 import java.util.Map;
 
