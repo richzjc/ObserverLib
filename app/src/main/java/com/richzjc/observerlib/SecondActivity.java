@@ -15,7 +15,7 @@ public class SecondActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ObserverManger.registerObserver(this, false, 0);
+        ObserverManger.getInstance().registerObserver(this, false, 0);
         initListener();
     }
 
@@ -23,7 +23,7 @@ public class SecondActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObserverManger.notifyObserver(0, "SecondActivity");
+                ObserverManger.getInstance().notifyObserver(0, "SecondActivity");
             }
         });
     }

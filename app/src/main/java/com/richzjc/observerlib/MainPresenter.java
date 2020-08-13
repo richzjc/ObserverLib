@@ -8,7 +8,7 @@ import com.richzjc.observer.ObserverManger;
 class MainPresenter extends BasePresenter<Object> implements Observer {
 
     public MainPresenter() {
-        ObserverManger.registerObserver(this, 0);
+        ObserverManger.getInstance().registerObserver(this, 0);
     }
 
     @Override

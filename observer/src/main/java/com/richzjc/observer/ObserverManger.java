@@ -6,13 +6,30 @@ import java.util.Map;
 
 public class ObserverManger {
 
-    final static private HashMap<Integer, ObserverLiveData> liveDatas = new HashMap<>();
+    final  private HashMap<Integer, ObserverLiveData> liveDatas = new HashMap<>();
 
-    public static void registerObserver(final Observer o, final int ... ids) {
+
+    private static volatile ObserverManger Instance = null;
+
+    public static ObserverManger getInstance() {
+        ObserverManger localInstance = Instance;
+        if (localInstance == null) {
+            synchronized (ObserverManger.class) {
+                localInstance = Instance;
+                if (localInstance == null) {
+                    Instance = localInstance = new ObserverManger();
+                }
+            }
+        }
+        return localInstance;
+    }
+
+
+    public  void registerObserver(final Observer o, final int ... ids) {
         registerObserver(o, false, ids);
     }
 
-    public static void registerObserver(final Observer o, boolean isNeedSticky, final int ... ids) {
+    public  void registerObserver(final Observer o, boolean isNeedSticky, final int ... ids) {
         if (o == null)
             return;
 
@@ -33,7 +50,7 @@ public class ObserverManger {
         }
     }
 
-    public static void removeObserver(Observer o, int ... ids) {
+    public  void removeObserver(Observer o, int ... ids) {
         if(ids == null || ids.length == 0){
             for (Map.Entry<Integer, ObserverLiveData> entry : liveDatas.entrySet()) {
                 if (entry.getValue() != null)
@@ -49,7 +66,7 @@ public class ObserverManger {
         }
     }
 
-    public static void notifyObserver(int id, Object... args) {
+    public  void notifyObserver(int id, Object... args) {
         ObserverLiveData liveData = liveDatas.get(id);
         if(liveData != null)
             liveData.setValue(args);

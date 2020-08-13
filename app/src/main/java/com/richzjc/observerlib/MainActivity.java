@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ObserverManger.registerObserver(this, 0);
+        ObserverManger.getInstance().registerObserver(this, 0);
         initListener();
         presenter.attachViewRef(this);
     }
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View v) {
 //                presenter.detachViewRef();
-                ObserverManger.notifyObserver(0, "今天的天气还是不错的");
+                ObserverManger.getInstance().notifyObserver(0, "今天的天气还是不错的");
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });

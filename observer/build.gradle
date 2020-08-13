@@ -6,7 +6,7 @@ publish {
     userOrg = 'richzjc'
     groupId = 'com.richzjc'
     artifactId = 'LiveDataLib'
-    publishVersion = '1.0.3'
+    publishVersion = '1.0.4'
     desc = '基于观察者模式 实现类似EventBus的功能'
     website = 'https://github.com/novoda/bintray-release'
 }
