@@ -8,40 +8,44 @@ public class ObserverManger {
 
     final static private HashMap<Integer, ObserverLiveData> liveDatas = new HashMap<>();
 
-    public static void registerObserver(final Observer o, LifecycleOwner lifecycleOwner, final int id) {
-        registerObserver(o, lifecycleOwner, id, false);
+    public static void registerObserver(final Observer o, final int ... ids) {
+        registerObserver(o, false, ids);
     }
 
-    public static void registerObserver(final Observer o, LifecycleOwner lifecycleOwner, final int id, boolean isNeedSticky) {
+    public static void registerObserver(final Observer o, boolean isNeedSticky, final int ... ids) {
         if (o == null)
             return;
 
-        ObserverLiveData liveData;
-        if (liveDatas.containsKey(id)) {
-            liveData = liveDatas.get(id);
-        } else {
-            liveData = new ObserverLiveData();
-            liveDatas.put(id, liveData);
-        }
+        for(int id : ids){
+            ObserverLiveData liveData;
+            if (liveDatas.containsKey(id)) {
+                liveData = liveDatas.get(id);
+            } else {
+                liveData = new ObserverLiveData();
+                liveDatas.put(id, liveData);
+            }
 
-        if (lifecycleOwner != null) {
-            liveData.observe(lifecycleOwner, new LiveDataObserver(o, id, isNeedSticky));
-        } else {
-            liveData.observeForever(new LiveDataObserver(o, id, isNeedSticky));
-        }
-    }
-
-    public static void removeObserver(Observer o, int id) {
-        ObserverLiveData liveData = liveDatas.get(id);
-        if(liveData != null){
-            liveData.removeObserverByO(o);
+            if (o instanceof LifecycleOwner) {
+                liveData.observe((LifecycleOwner) o, new LiveDataObserver(o, id, isNeedSticky));
+            } else {
+                liveData.observeForever(new LiveDataObserver(o, id, isNeedSticky));
+            }
         }
     }
 
-    public static void removeObserver(LifecycleOwner lifecycleOwner) {
-        for (Map.Entry<Integer, ObserverLiveData> entry : liveDatas.entrySet()) {
-            if (entry.getValue() != null)
-                entry.getValue().removeObservers(lifecycleOwner);
+    public static void removeObserver(Observer o, int ... ids) {
+        if(ids == null || ids.length == 0){
+            for (Map.Entry<Integer, ObserverLiveData> entry : liveDatas.entrySet()) {
+                if (entry.getValue() != null)
+                    entry.getValue().removeObserverByO(o);
+            }
+        }else{
+            for(int id : ids){
+                ObserverLiveData liveData = liveDatas.get(id);
+                if(liveData != null){
+                    liveData.removeObserverByO(o);
+                }
+            }
         }
     }
 
