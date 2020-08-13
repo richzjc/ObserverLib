@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.detachViewRef();
+//                presenter.detachViewRef();
                 ObserverManger.notifyObserver(0, "今天的天气还是不错的");
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }

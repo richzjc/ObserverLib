@@ -15,7 +15,7 @@ public class SecondActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ObserverManger.registerObserver(this, true, 0);
+        ObserverManger.registerObserver(this, false, 0);
         initListener();
     }
 
