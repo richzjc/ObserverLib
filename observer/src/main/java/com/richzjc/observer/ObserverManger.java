@@ -1,12 +1,17 @@
 package com.richzjc.observer;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.lifecycle.LifecycleOwner;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ObserverManger {
 
-    final  private HashMap<Integer, ObserverLiveData> liveDatas = new HashMap<>();
+    final private HashMap<Integer, ObserverLiveData> liveDatas = new HashMap<>();
+    final private Handler handler = new Handler(Looper.getMainLooper());
 
 
     private static volatile ObserverManger Instance = null;
@@ -25,15 +30,28 @@ public class ObserverManger {
     }
 
 
-    public  void registerObserver(final Observer o, final int ... ids) {
+    public void registerObserver(final Observer o, final int... ids) {
         registerObserver(o, false, ids);
     }
 
-    public  void registerObserver(final Observer o, boolean isNeedSticky, final int ... ids) {
+    public void registerObserver(final Observer o, final boolean isNeedSticky, final int... ids) {
+        if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    realObserver(o, isNeedSticky, ids);
+                }
+            });
+        } else {
+            realObserver(o, isNeedSticky, ids);
+        }
+    }
+
+    private void realObserver(Observer o, boolean isNeedSticky, int[] ids) {
         if (o == null)
             return;
 
-        for(int id : ids){
+        for (int id : ids) {
             ObserverLiveData liveData;
             if (liveDatas.containsKey(id)) {
                 liveData = liveDatas.get(id);
@@ -50,25 +68,25 @@ public class ObserverManger {
         }
     }
 
-    public  void removeObserver(Observer o, int ... ids) {
-        if(ids == null || ids.length == 0){
+    public void removeObserver(Observer o, int... ids) {
+        if (ids == null || ids.length == 0) {
             for (Map.Entry<Integer, ObserverLiveData> entry : liveDatas.entrySet()) {
                 if (entry.getValue() != null)
                     entry.getValue().removeObserverByO(o);
             }
-        }else{
-            for(int id : ids){
+        } else {
+            for (int id : ids) {
                 ObserverLiveData liveData = liveDatas.get(id);
-                if(liveData != null){
+                if (liveData != null) {
                     liveData.removeObserverByO(o);
                 }
             }
         }
     }
 
-    public  void notifyObserver(int id, Object... args) {
+    public void notifyObserver(int id, Object... args) {
         ObserverLiveData liveData = liveDatas.get(id);
-        if(liveData != null)
+        if (liveData != null)
             liveData.setValue(args);
     }
 }

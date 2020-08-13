@@ -16,7 +16,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ObserverManger.getInstance().registerObserver(this, 0);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ObserverManger.getInstance().registerObserver(MainActivity.this, 0);
+            }
+        }).start();
         initListener();
         presenter.attachViewRef(this);
     }
