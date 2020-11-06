@@ -39,15 +39,30 @@ public class ObserverManger {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    realObserver(o, isNeedSticky, ids);
+                    realObserver(o, isNeedSticky, true, ids);
                 }
             });
         } else {
-            realObserver(o, isNeedSticky, ids);
+            realObserver(o, isNeedSticky, true, ids);
         }
     }
 
-    private void realObserver(Observer o, boolean isNeedSticky, int[] ids) {
+
+    public void registerObserver(final Observer o, final boolean isNeedSticky, final boolean isIgnoreLastMsg, final int... ids) {
+        if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    realObserver(o, isNeedSticky, isIgnoreLastMsg, ids);
+                }
+            });
+        } else {
+            realObserver(o, isNeedSticky, isIgnoreLastMsg, ids);
+        }
+    }
+
+
+    private void realObserver(Observer o, boolean isNeedSticky, boolean isIgnoreLastMsg,  int[] ids) {
         if (o == null)
             return;
 
@@ -56,7 +71,7 @@ public class ObserverManger {
             if (liveDatas.containsKey(id)) {
                 liveData = liveDatas.get(id);
             } else {
-                liveData = new ObserverLiveData();
+                liveData = new ObserverLiveData(isIgnoreLastMsg);
                 liveDatas.put(id, liveData);
             }
 

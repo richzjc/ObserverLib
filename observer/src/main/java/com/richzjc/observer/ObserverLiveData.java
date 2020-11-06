@@ -1,5 +1,8 @@
 package com.richzjc.observer;
 
+import android.os.Handler;
+import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -11,11 +14,23 @@ import java.util.Map;
 class ObserverLiveData extends MutableLiveData<Object[]> {
 
     private static Field mObserversField;
+    private boolean isIgnoreLastMsg = true;
 
     private Iterable<Map.Entry> iterable;
+    private Handler handler;
 
-    public ObserverLiveData() {
+    public ObserverLiveData(boolean isIgnoreLastMsg) {
         try {
+            this.isIgnoreLastMsg = isIgnoreLastMsg;
+            if (!isIgnoreLastMsg) {
+                handler = new Handler() {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        ObserverLiveData.super.setValue((Object[]) msg.obj);
+                    }
+                };
+            }
+
             if (getmObserversField() != null)
                 iterable = (Iterable) mObserversField.get(this);
         } catch (Exception e) {
@@ -39,7 +54,7 @@ class ObserverLiveData extends MutableLiveData<Object[]> {
 
     public void removeObserverByO(Observer o) {
         if (o instanceof LifecycleOwner) {
-                removeObservers((LifecycleOwner) o);
+            removeObservers((LifecycleOwner) o);
         } else {
             if (iterable != null) {
                 LiveDataObserver liveDataObserver;
@@ -72,5 +87,16 @@ class ObserverLiveData extends MutableLiveData<Object[]> {
             ((LiveDataObserver) observer).filterObject = getValue();
         }
         super.observeForever(observer);
+    }
+
+    @Override
+    public void setValue(Object[] value) {
+        if (isIgnoreLastMsg)
+            super.setValue(value);
+        else {
+            Message msg = Message.obtain();
+            msg.obj = value;
+            handler.sendMessage(msg);
+        }
     }
 }
